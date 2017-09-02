@@ -1,0 +1,157 @@
+CYBER PATRIOT SECURING WINDOWS 7
+--------------------------------
+1. Read the scenario(Over and over again)
+2. Read forensic question(do if you can)
+
+WINDOWS UPDATE AND FIREWALL
+---------------------------
+1. Change settings and check for updates
+2. Install automatic updates (Control Panel Action Tools under System in security.)  
+3. Turn on firewall
+  
+PASSWORD POLICY
+---------------
+1. Password History 5 Days 
+2. Maximum Password age 30-90 days 
+3. Minimum Password age 5 days 
+4. Minimum Password Length 8 char. 
+5. Password Complexity Enabled 
+6. Reverse Encryptions Disabled  
+
+ACCOUNT LOCKOUT POLICIES AND AUIDT
+----------------------------------
+1. Account Lockout Duration 30 minutes 
+2. Account Lockout Threshold 3 
+3. Reset account lockout counter 30 minutes 
+ 
+  Set up Windows Audit Policies (Right under Account Polices in Local Policies) 
+    a. Audit Logon Events Failure 
+    b. Audit Account Management Success 
+    c. Audit Directory Service ND 
+    d. Audit logon Events Failure 
+    e. Audit Objects Access ND 
+    f. Audit Policy Change Success 
+    g. Audit Privilege use success failure 
+    h. Audit Process tracking Success Failure 
+    i. Audit System Events failure 
+ 
+SECURITY OPTIONS
+----------------
+1. Disable Administrator account 
+2. Disable Guest account
+3. Rename administrator and guest accounts 
+4. Shutdown without Log on.  
+
+FIX USER PASSWORDS
+------------------
+1. Change Passwords for Each User (User policy)  
+2. Set local user Admin password to not expire and account enable Admin tools\Computer management\users and group\use 
+ 
+SERVICES
+--------
+1. Disable and Stop Services in the services menu 
+2. RDP (Remote Desktop Protocol)-connect computers over a network
+3. ICS (internet connection sharing)
+4. RDP UserMode 
+  - Remote Registry
+            Enables remote users to modify registry settings on your computer, provided the remote 
+            users have the required permissions
+  - RD Configuration:
+            You can use Remote Desktop Session Host Configuration to configure settings for new connections, 
+            modify the settings of existing connections, and delete connections. You can configure settings on a 
+            per connection basis, or for the server as a whole.
+  - SSDP Discovery (Simple service discovery Protocol):
+            SSDP is HTTP like protocol and work with NOTIFY and M-SEARCH methods. 
+            SSDP can be used over IPv4 and IPv6
+  - UPnP Device Host(Universal Plug and Play):
+            UPnP can do a number of things, although in the majority of cases (this one included) it is simply used 
+            as a way of automatically forwarding only needed ports. It means one would not have to muck about 
+            with portforwarding, but alas it never does work out quite that way. :-)
+  - Remote Desktop:
+            Remote Desktop Connection is a technology that allows you to sit at a computer (sometimes 
+            called the client computer) and connect to aremote computer (sometimes called the host computer) 
+            in a different location.
+  - WWW Publishing Service (World Wide Web Publishing Service):
+            Manages the HTTP protocol and HTTP performance counters.
+
+Clean the Host File: (C:\Windows\System32\drivers\etc\host.txt 
+          
+DENY FOLLOWING PORTS through windows firewall advanced settings
+  - FTP :
+            The File Transfer Protocol (FTP) is a standard network protocol used to transfer computer
+            files from one host to another host over a TCP-based network, such as the Internet.
+  - SSH- Secure Shell:
+            SSH is a cryptographic (encrypted) network protocol to allow remote login and other network 
+            services to operate securely over an unsecured network
+  - TelNet:
+            Telnet is a user command and an underlying TCP/IP protocol for accessing remote computers.
+  - SNMP: 
+            Simple Network Management Protocol (SNMP) is a popular protocol for network
+            management. It is used for collecting information from, and configuring, network devices, 
+            such as servers, printers, hubs, switches, and routers on an Internet Protocol (IP) network.
+  - LDAP:
+            It provides a mechanism used to connect to, search, and modify Internet directories. 
+            The LDAP directory service is based on a client-server model.
+  - RDP:
+            Remote Desktop Protocol (RDP) is a proprietary protocol developed by Microsoft, which 
+            provides a user with a graphical interface to connect to another computer over a network 
+            connection. The user employs RDP client software for this purpose, while the other computer 
+            must run RDP server software.
+
+
+SCREEN SAVER (Only if Specified)
+--------------------------------
+1. Control Panel
+2. Appearance and Personalization
+3. Personalization
+4. Screen Saver(Bottom right corner)
+5. Set screen saver  and AFK time,check the logon screen box
+
+
+SERVICE PACKS
+-------------
+- To check what version you have right click computer and then click properties.
+- Install antivirus software and uninstall hacking tools and unnecessary program
+
+HACKING TOOLS
+-------------
+- GUI Miner, Free media converter, Nmap, Wireshark, etc.
+Password cracking tools:
+  - Ophcrack,Rainbow Tables, Aircrack-NG, L0phtCrack, OphCrack, Etc.
+
+*Search up the software to see if you really need it*
+
+NOT PART OF CHECKLIST
+---------------------
+Find these programs in the program files folder or in the programs and features section in the control panel
+Websites with these tools:
+http://resources.infosecinstitute.com/10-popular-password-cracking-tools/
+http://hackyshacky.com/blog/must-have-hacking-tools/
+
+File sharing
+Search Advanced sharing settings in the start menu, click the top option, and then change the variety of settings if needed
+
+Port cheat sheet URL:
+http://overapi.com/static/cs/common_ports.pdf
+
+
+http://www.dummies.com/how-to/content/commonly-hacked-ports.html
+
+Commonly Hacked Ports
+By Kevin Beaver
+Part of the Hacking For Dummies Cheat Sheet
+Common ports, such as TCP port 80 (HTTP), may be locked down — but other ports may get overlooked and be vulnerable to hackers. In your security tests, be sure to check these commonly hacked TCP and UDP ports:
+TCP port 21 - FTP (File Transfer Protocol)
+TCP port 22 – SSH (Secure Shell)
+TCP port 23 - telnet
+TCP port 25 - SMTP (Simple Mail Transfer Protocol)
+TCP and UDP port 53 - DNS (Domain Name System)
+TCP port 443 - HTTP (Hypertext Transport Protocol) and HTTPS (HTTP over SSL)
+TCP port 110 - POP3 (Post Office Protocol version 3)
+TCP and UDP port 135 - Windows RPC
+TCP and UDP ports 137–139 - Windows NetBIOS over TCP/IP
+TCP port 1433 and UDP port 1434 – Microsoft SQL Server
+
+
+
+
