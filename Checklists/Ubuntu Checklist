@@ -1,0 +1,400 @@
+CYBERPATRIOT UBUNTU CHEKLIST
+----------------------------
+
+UPDATES
+-------
+**USE SOFTWARE UPDATER**
+Enable automatic updates (Update Manager -> Settings)
+Set to daily.
+Make sure all (non-source-code) repos are checked.
+
+NETWORK
+-------
+Disable IPv6:
+  - gedit /etc/sysctl.conf file 
+	- net.ipv6.conf.all.disable_ipv6=1
+  - net.ipv6.conf.default,disable_ipv6=1	
+  - net.ipv6.conf.10.disable_ipv6=1
+
+FIREWALL
+--------
+Command Line:
+  - sudo ufw status
+  - sudo ufw enable
+  - sudo ufw disable
+GUI Firewall (gufw):
+  - sudo gufw install
+
+USERS AND GROUPS
+----------------
+Users:
+  - go to sudo /etc/passwd and comment out bad users
+  - fix the UIDs and GIDs of users if it they are 0
+    Check sudoers file:
+      - sudo visudo OR sudo gedit /etc/sudoers
+    Check sudoers.d:
+      - ls /etc/sudoers.d
+      - remove NO from NOPASSWD
+    Check user’s bash files:
+      - ~/.bash_profile  and  ~/.bashrc
+  Line reference = [user]:x:[user id]:[group id]:[description]:[home directory]:[default shell]
+    - User ID number less than 1000 are hidden users
+    - Only user root should have User ID of 0
+    - The UID and GID should be the same.
+Groups:
+  - sudo gedit /etc/group
+  - Check for invalid users in the admin and other groups.
+  - root group should be empty
+Accounts:
+  - sudo gedit /etc/passwd
+  - Check for plaintext passwords/sensitive data in the GECOS field.
+  - Check for hidden users
+  - Check for non-root users with UID of 0.
+*Easy Way To Change Passwords* Make text file using ls /home > <name>.txt then save. Then run cat <filename>.txt | chpasswd
+Adding users:
+  - sudo adduser username 
+Deleting users:
+  - sudo deluser username
+  - sudo deluser -r username (deletes home directory)
+Locking/Unlocking users:
+  - sudo passwd -l username
+Remove autologin:
+  - cd/etc/shadow- password hash file
+  - if not able to view the file use , sudo chmod 777 shadow , change back after use. 777 is global read,write,execute:       - Change back to 640 permissions - SITUATIONAL
+Authentication
+  - Change user passwords
+  - sudo passwd username
+  - Install cracklib BACKUP BEFORE (RISKY)
+  - sudo apt-get install libpam-cracklib -force-yes -y
+Password Policy
+  - sudo gedit /etc/login.defs
+  - Search for “PASS” and set line to:
+  - PASS_MIN_DAYS 7
+  - PASS_MAX_DAYS 90
+  - PASS_WARN_AGE 14
+  - Add password rules (after cracklib install) BACKUP BEFORE (RISKY)
+    - sudo apt-get install libpam--cracklib
+  	- (sudo apt-get install libpam--cracklib--force -yes -y)
+  - /etc/pam.d/common-auth
+  - /etc/pam.d/common-password
+  - password requisite pam_cracklib.so retry=3 minlen=6 difok=3 reject_username minclass=3 maxrepeat=2 dcredit=1 ucredit=1       lcredit=1 ocredit=1
+Account Policy:
+  - Edit /etc/pam.d/common-auth
+	- Add the line: auth required pam_tally2.so deny=5 onerr=fail unlock_time=1800
+
+Audit Policy:
+  - Install auditd
+	- apt-get install auditd
+  - Enable audits by typing
+  - auditctl -e 1
+  - displays
+  - audit_status : enabled=1 flag=1 pid=4229 rate_limit=0 backlog_limit=320 lost=50 backlog=0
+
+Uninstall Applications #
+Synaptic
+sudo apt-get synaptic
+sudo synaptic
+Aptitude
+sudo aptitude
+Apt-Get
+sudo apt-get autoremove --purge <package name>
+Removes packages; keeps config files.
+sudo apt-get autoremove <package name>
+Clears unused dependencies
+sudo apt-get purge <package_name>
+Completely removes package; removes config files
+    Look for:
+Hacking tools
+John the Ripper (john)
+nmap, hydra
+dpkg --get-selections | grep -i john
+dpkg --get-selections | grep  -i  hydra
+dpkg --get-selections | grep  -i  crack (cracklib good)
+dpkg --get-selections | grep -i  weplab
+dpkg --get-selections | grep -i  pyrit
+find / -name *.mp3 (Redo command if terminal immediately runs it)
+find / -name <file name> sometimes used in forensics questions
+		
+
+Find A File
+
+man locate for more info on the file.
+Use “locate” (Be careful with locate as it may show things even if program is deleted)
+ex:(locate john)
+find /home/ | egrep -e ".*.(jpg|tif|png|gif|wav|mp3|ogg|flac|wma|aac|m4a|flv|webm|ogv|gif|gifv|avi|wmv|mp4|mpg|3gp)"
+find / -name netca* | egrep -i netcat
+
+If unable to gain access to the file do this:
+
+ Chmod allows you to change file permissions
+Syntax: chmod [u,g or o][+ or -][r,w, or x] [filepath] 
+
+‐ Do not put spaces between the    three fields after 
+     chmod 777 file_name  (permission read , write, execute to all)
+
+Processes
+System Monitor (System > Adapt-get find /ministration > System Monitor)
+ps aux
+Search via a pipe to grep
+sudo ps auxsy | grep search
+top
+      ps -aelf (List all running application)
+Log Files  (Refer to the printed page)
+General log messages
+/var/log/messages
+System boot log
+/var/log/boot
+Debugging log messages
+/var/log/debug
+User login and authentication logs
+/var/log/auth.log
+Running services such as squid, ntpd and others log messages to this file
+/var/log/daemon.log
+Kernel log file
+/var/log/kern.log
+            Critical system  Applications
+                   avahi -daemon - Used for bringing up DNS on systems
+                   xinetd - Used for bringing up some networking services
+                   sshd  - used for remote access to a system
+
+Antivirus/Antimalware/Scanning Software
+rkhunter
+sudo apt-get install rkhunter
+sudo rkhunter -check -l logfilePath
+                
+ Anti-Virus  - Install ClamTK
+sudo apt-get install ClamTK (Under Accessories)
+sudo apt-get install clamav -tk  (incl user inteface)
+sudo apt-get install clamav
+ 
+
+nmap
+sudo apt-get install nmap
+nmap -v -sF localhost
+BE CAREFUL with nmap, may cause loss of points. Alternative would be clam...if it was good.
+netstat
+sudo netstat -nap
+Can be searched using grep
+sudo netstat -nap | grep search
+                                ss -anlepo (shows the process id)
+Backdoors #
+Netcat
+Search
+dpkg -l | grep -i netcat*
+netstat -tunlp   or  netstat -ltun (list network sockets that are active)
+ps ax |grep nc ( to find the process id) [ apt -get purge nc, then kill -9 process id)
+kill -9 (netcat process id)
+apt-get autoremove --purge netcat(openbsd, traditional)
+check /bin to see if anything else is installed (plymouth-sound-server is one of the netcat backdoors)
+Find netcat file
+grep -l ‘/bin/nc’ etc/rc*
+Remove the line (or delete it, sometimes no points for line removal)
+Usually in rc.local
+gedit /etc/rc.local
+Sometimes in crontabs
+Scheduled Jobs #
+Cron
+sudo crontab -e
+Job often in /var/spool/cron/crontabs/
+Check /etc/cron.* directories (cron.daily, cron.weekly, etc.) 
+crontab -l to see scheduled jobs
+crontab -r  (remove crontab for the current user)
+Anacron
+sudo gedit /etc/anacrontab
+Uninstall (not installed by default)
+Services #
+List services enabled  for startup (+ means enabled)
+service --status-all
+lsof -i ( list active network sockets and applications using them)
+            or lsof - Pn +M -i4
+update-rc.d -f SERVICE NAME  remove ( remove startup config for service)
+
+Remove
+sudo apt-get --purge autoremove servicename
+		sudo apt-get install bum
+		ps -aelf - List all running applications
+ 16.Remove Webserver
+Use webmin as well to keep track of the web servers and services running if you can
+for ex., if SSH is one of the only required service remove all other web servers
+type localhost in browser to see if web server is running
+Then check /var/www, use ls -a to search directory 
+If html is present cd into it and rm malicious files
+
+
+Telnet
+Fix config file
+sudo gedit /etc/xinetd.d/telnet (sometimes not there)
+Remove (if exists)
+server_args = -L /usr/local/bin/autologin
+Add (if not there)
+only_from = 127.0.0.1 192.168.1.0/24
+Remove banners
+sudo gedit /etc/issue.net
+Remove Ubuntu/Linux distro
+sudo gedit /etc/update-motd.d/00-header
+Comment out all lines.
+sudo gedit /etc/update-motd.d/10-help-test
+Comment out all lines.
+Start/Stop/Restart
+service xinetd start
+service xinetd stop
+service xinetd reload
+SSH #
+
+Config
+sudo gedit /etc/ssh/sshd_config
+If the file is not available
+ 
+          sudo apt-get install openssh-server
+           sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.factory-defaults
+           sudo chmod a-w /etc/ssh/sshd_config.factory-defaults
+    	sudo gedit /etc/ssh/sshd_config
+    	sudo restart ssh
+If you get the error, "Unable to connect to Upstart", restart ssh with the following:
+            sudo systemctl restart ssh
+
+PermitRootLogin no
+LoginGraceTime 60
+IgnoreUserKnownHosts yes
+LogLevel INFO
+MaxAuthTries 2
+Permit Blacklisted Keys no
+UsePAM yes
+UsePrivilegeSeparation yes
+X11 Forwarding yes/no (DEPENDS ON README) 
+Start/Stop/Restart
+sudo start ssh
+sudo stop ssh
+sudo restart ssh
+After making changes you must restart the service for those changes to g into effect
+FTP #
+Config
+sudo vim /etc/vsftpd.conf
+Make sure anon_root != /var/ftp
+ anon_upload_enable=NO
+Uninstall if not needed
+dpkg -l |grep -t FTP
+apt-get autoremove --purge FTP
+MySQL #
+Config
+sudo vim /etc/mysql/my.cnf
+bind-address=127.0.0.1
+skip-networking=ON
+Remove Programs #
+List programs
+dpkg --get-selections
+Hacking tools (if already installed)
+nmap
+medusa
+john
+nikto
+hydra
+open file to see the contents, telling you if they are malicious or not
+Unneeded programs
+tightvnc
+nginx
+avahi
+bind
+Games (not system ones)
+
+                     d.  ps aux | grep ssh
+Disable Guest Account #
+Method 1:
+sudo gedit /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
+If exists:
+allow-guest=false
+Otherwise:
+[SeatDefaults]
+user-session=ubuntu
+greeter-session=unity-greeter
+allow-guest=false
+greeter-hide-users=true
+greeter-show-manual-login=true
+(if needed) autologin-user=false
+ Method 2
+cd /etc/lightdm
+gedit lightdm.conf
+
+Other
+Look at system files:
+Look at the /etc/hosts file.
+Look at the $home/.rhosts file.
+Check for Network File System (file sharing):
+Check /etc/exports file.
+Look for suspicious files:
+World-readable files:
+find / -perm -2 -type f -print
+Hidden files:
+find / -name “.*”
+Port Scan (from host or guest PC)
+Run using zenmap or nmap
+Useful Commands
+Find programs using ports
+With hostname resolution
+lsof -i
+Without hostname resolution
+lsof -n -i
+Find programs with open files
+lsof
+View live modifications to file
+tail -f filename
+Useful Programs
+Tiger
+http://www.nongnu.org/tiger/
+Lynis
+https://cisofy.com/lynis/
+LSAT (Linux Security Auditing Tool)
+http://usat.sourceforge.net/
+Bastille Hardening Program
+http://bastille-linux.sourceforge.net/
+Zenmap/nmap
+https://nmap.org/
+gufw
+sudo apt-get install gufw
+24.Resolve.conf
+Linux equivalent of the Windows host file.. .https://youtube/MI3FmecbZM8
+
+
+
+
+
+
+Common Services
+The following services should be disabled if they are not required
+Database
+mysqld
+postgres
+E-mail
+dovecot
+exim4
+postfix
+File Sharing
+nfs
+nmbd
+rpc.mountd
+rpc.nfsd
+smbd
+vsftpd
+Music
+mpd
+Networking
+avahi-daemon
+bind
+dnsmasq
+xinetd
+inetd
+sshd
+telnet
+Printing, Scanning
+cupsd
+saned
+Time
+ntpd
+Scheduled tasks
+cron
+Web Server
+apache2
+httpd
+jetty
+nginx
+tomcat
