@@ -1,3 +1,2 @@
 # HebronPatriotScripts
-Place to save and do scripts for the Hebron team, and good Cisco stuff.
-PLS WORK
+Repository for code and scripts developed for CyberPatriot
